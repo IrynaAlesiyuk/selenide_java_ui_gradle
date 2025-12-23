@@ -32,19 +32,6 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
-      # 4️⃣ Remove preinstalled Chrome (слишком новый → проблемы с CDP)
-      - name: Remove preinstalled Chrome
-        run: |
-          sudo apt-get remove -y google-chrome-stable || true
-          sudo apt-get autoremove -y
-
-      # 5️⃣ Install compatible Chrome (116)
-      - name: Install Google Chrome 116
-        run: |
-          wget -q https://dl.google.com/linux/direct/google-chrome-stable_116.0.5845.96-1_amd64.deb
-          sudo apt install -y ./google-chrome-stable_116.0.5845.96-1_amd64.deb
-          google-chrome --version
-
       # 6️⃣ Grant execute permissions to Gradle wrapper
       - name: Make gradlew executable
         run: chmod +x gradlew
