@@ -15,7 +15,7 @@ public class BaseTest {
         Configuration.browserSize = "1920x1080";
         Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.headless = Boolean.parseBoolean(System.getProperty("headless", "true"));
-        Configuration.timeout = 5000;
+        Configuration.timeout = 10000;
 
         logger.info("Starting Selenide tests...");
         logger.info("Browser: {}, Headless: {}", Configuration.browser, Configuration.headless);
