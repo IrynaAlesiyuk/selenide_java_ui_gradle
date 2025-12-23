@@ -16,7 +16,7 @@ public class BaseTest {
         Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.headless = Boolean.parseBoolean(System.getProperty("headless", "true"));
         Configuration.timeout = 10000;
-        Configuration.browserVersion = "120.0";
+        Configuration.browserVersion = "119.0";
         Configuration.pageLoadStrategy = "eager";
 
         logger.info("Starting Selenide tests...");

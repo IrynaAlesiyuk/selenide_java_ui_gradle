@@ -19,9 +19,8 @@ repositories {
 
 dependencies {
     implementation  "com.codeborne:selenide:${selenideVersion}"
+    implementation  "org.seleniumhq.selenium:selenium-java:${seleniumVersion}"
     implementation  "org.testng:testng:${testngVersion}"
-    implementation  "io.rest-assured:rest-assured:${restAssuredVersion}"
-    implementation  "org.json:json:${jsonVersion}"
     implementation  "org.slf4j:slf4j-api:${slf4jVersion}"
     implementation  "ch.qos.logback:logback-classic:${logbackVersion}"
 }
