@@ -1,13 +1,15 @@
 package tests;
 
 import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.demoqa.DemoQAButtonsPage;
 import pages.demoqa.DemoQADroppablePage;
 import pages.demoqa.DemoQASelectPage;
 import tests.base.BaseTest;
+import tests.base.listeners.ScreenshotOnFailListener;
 
-
+@Listeners(ScreenshotOnFailListener.class)
 public class DemoQASelectTest extends BaseTest {
 
 
