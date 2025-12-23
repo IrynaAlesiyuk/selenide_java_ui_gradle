@@ -39,5 +39,9 @@ sourceSets {
 
 tasks.withType(Test) {
     useTestNG()
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        showStandardStreams = true
+    }
 
 }
