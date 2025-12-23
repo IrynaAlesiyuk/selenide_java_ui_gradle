@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 
 public class BaseTest {
@@ -12,12 +13,12 @@ public class BaseTest {
 
     @BeforeClass
     public void setup() {
+        WebDriverManager.chromedriver().setup();
+
         Configuration.browserSize = "1920x1080";
         Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.headless = Boolean.parseBoolean(System.getProperty("headless", "true"));
         Configuration.timeout = 10000;
-        Configuration.browserVersion = "119.0";
-        Configuration.pageLoadStrategy = "eager";
 
         logger.info("Starting Selenide tests...");
         logger.info("Browser: {}, Headless: {}", Configuration.browser, Configuration.headless);
