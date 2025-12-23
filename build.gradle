@@ -22,7 +22,7 @@ dependencies {
     implementation  "org.seleniumhq.selenium:selenium-java:${seleniumVersion}"
     implementation  "org.testng:testng:${testngVersion}"
     implementation  "org.slf4j:slf4j-api:${slf4jVersion}"
-    implementation  "io.github.bonigarcia:webdrivermanager:5.7.0"
+    implementation  "io.github.bonigarcia:webdrivermanager:${webdrivermanagerVersion}"
     implementation  "ch.qos.logback:logback-classic:${logbackVersion}"
 }
 
