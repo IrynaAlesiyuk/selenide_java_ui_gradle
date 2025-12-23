@@ -11,17 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repository
-      - uses: actions/checkout@v3
+      # 1️⃣ Checkout repository
+      - uses: actions/checkout@v4
 
-      # 2. Setup JDK
+      # 2️⃣ Setup JDK 17 (нужно для Gradle 9)
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: '17'
 
-      # 3. Cache Gradle dependencies
+      # 3️⃣ Cache Gradle dependencies
       - name: Cache Gradle packages
         uses: actions/cache@v3
         with:
@@ -32,23 +32,40 @@ jobs:
           restore-keys: |
             gradle-${{ runner.os }}-
 
-      # 4. Grant execute permissions to Gradle wrapper
+      # 4️⃣ Remove preinstalled Chrome (слишком новый → проблемы с CDP)
+      - name: Remove preinstalled Chrome
+        run: |
+          sudo apt-get remove -y google-chrome-stable || true
+          sudo apt-get autoremove -y
+
+      # 5️⃣ Install compatible Chrome (116)
+      - name: Install Google Chrome 116
+        run: |
+          wget -q https://dl.google.com/linux/direct/google-chrome-stable_116.0.5845.96-1_amd64.deb
+          sudo apt install -y ./google-chrome-stable_116.0.5845.96-1_amd64.deb
+          google-chrome --version
+
+      # 6️⃣ Grant execute permissions to Gradle wrapper
       - name: Make gradlew executable
         run: chmod +x gradlew
 
-      # 5. Build with Gradle
+      # 7️⃣ Build
       - name: Build
         run: ./gradlew clean build --no-daemon
 
-      # 6. Run tests
+      # 8️⃣ Run tests
       - name: Run tests
         run: ./gradlew test --no-daemon
         continue-on-error: true
+        env:
+          browser: chrome
+          headless: true
 
-      # 7. Upload screenshots (if any)
+      # 9️⃣ Upload screenshots (always)
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: screenshots
           path: screenshots/**
+
