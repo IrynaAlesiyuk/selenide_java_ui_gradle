@@ -4,8 +4,8 @@ import com.codeborne.selenide.SelenideElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.actions;
+import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.*;
 
 public class DemoQADroppablePage extends DemoQABasePage{
     private static final Logger logger = LoggerFactory.getLogger(DemoQADroppablePage.class);
@@ -25,13 +25,21 @@ public class DemoQADroppablePage extends DemoQABasePage{
     }
 
     public void dragToDrop() {
-        logger.info("Dragging element to droppable area");
-        actions().dragAndDrop(draggable, simpleDroppable).perform();
+        draggable.shouldBe(visible, enabled);
+        simpleDroppable.shouldBe(visible);
+
+        actions()
+                .moveToElement(draggable)
+                .clickAndHold(draggable)
+                .moveToElement(simpleDroppable)
+                .release(simpleDroppable)
+                .perform();
     }
 
     public String getDropText() {
-        String text = simpleDroppable.getText();
-        logger.info("Droppable text: {}", text);
-        return text;
+        return simpleDroppable
+                .shouldBe(visible)
+                .shouldHave(text("Dropped!"))
+                .getText();
     }
 }
