@@ -5,7 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class DemoQASelectPage extends DemoQABasePage{
     private static final Logger logger = LoggerFactory.getLogger(DemoQASelectPage.class);
@@ -29,10 +32,20 @@ public class DemoQASelectPage extends DemoQABasePage{
         singleSelect.selectOption(value);
     }
 
-    public void selectMultipleOptions(String[] values) {
-        for (String value : values) {
-            multiSelect.selectOption(value);
-        }
+    public void selectMultipleOptions(String... values) {
+        multiSelect
+                .shouldBe(visible, enabled)
+                .scrollIntoView(true);
+
+        executeJavaScript(
+                "Array.from(arguments[0].options).forEach(o => o.selected = false);" +
+                        "Array.from(arguments[0].options).forEach(o => {" +
+                        "  if (Array.from(arguments[1]).includes(o.value)) o.selected = true;" +
+                        "});" +
+                        "arguments[0].dispatchEvent(new Event('change'));",
+                multiSelect,
+                values
+        );
     }
 
     public String getSingleValue() {

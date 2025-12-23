@@ -60,7 +60,7 @@ public class DemoQASelectTest extends BaseTest {
 
         // Act
         selectPage.open();
-        selectPage.selectMultipleOptions(new String[]{"Volvo", "Saab"});
+        selectPage.selectMultipleOptions("volvo", "saab");
 
         // Assert
         Assert.assertEqualsNoOrder(

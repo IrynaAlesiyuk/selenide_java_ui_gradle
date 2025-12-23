@@ -12,6 +12,7 @@ public class BaseTest {
 
     @BeforeClass
     public void setup() {
+        Configuration.browserSize = "1920x1080";
         Configuration.browser = System.getProperty("browser", "chrome");
         Configuration.headless = Boolean.parseBoolean(System.getProperty("headless", "true"));
         Configuration.timeout = 5000;
