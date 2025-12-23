@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(
+                project.findProperty("javaVersion") as Integer
+        )
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation  "com.codeborne:selenide:${selenideVersion}"
+    implementation  "org.testng:testng:${testngVersion}"
+    implementation  "io.rest-assured:rest-assured:${restAssuredVersion}"
+    implementation  "org.json:json:${jsonVersion}"
+    implementation  "org.slf4j:slf4j-api:${slf4jVersion}"
+    implementation  "ch.qos.logback:logback-classic:${logbackVersion}"
+}
+
+sourceSets {
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+        resources {
+            srcDirs = ['src/test/resources']
+        }
+    }
+}
+
+tasks.withType(Test) {
+    useTestNG()
+
+}

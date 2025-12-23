@@ -1,0 +1,54 @@
+name: Java Selenide CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repository
+      - uses: actions/checkout@v3
+
+      # 2. Setup JDK
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # 3. Cache Gradle dependencies
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      # 4. Grant execute permissions to Gradle wrapper
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      # 5. Build with Gradle
+      - name: Build
+        run: ./gradlew clean build --no-daemon
+
+      # 6. Run tests
+      - name: Run tests
+        run: ./gradlew test --no-daemon
+        continue-on-error: true
+
+      # 7. Upload screenshots (if any)
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: screenshots/**
